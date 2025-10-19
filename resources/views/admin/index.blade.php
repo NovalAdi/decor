@@ -1,4 +1,4 @@
-@extends('layout.master')
+@extends('layout.master_admin')
 
 @section('content')
 
@@ -7,7 +7,7 @@
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
     body {
-        background-color: #ffffff; 
+        background-color: #ffffff;
         font-family: 'Inter', Arial, sans-serif;
         color: #374151;
         margin: 0;
@@ -16,9 +16,9 @@
     .container {
         /* PERUBAHAN: max-width dihapus agar container bisa memanjang */
         /* PERUBAHAN: margin diatur agar tidak ada jarak di kiri dan kanan */
-        margin: 10px 0; 
+        margin: 10px 0;
         /* PERUBAHAN: padding disesuaikan untuk memberi ruang napas di sisi halaman */
-        padding: 10px 20px; 
+        padding: 10px 20px;
         box-sizing: border-box; /* Memastikan padding tidak menambah lebar total */
     }
 
@@ -59,7 +59,7 @@
         background-color: #2563eb;
         transform: translateY(-2px);
     }
-    
+
     .search-bar input {
         padding: 10px 16px;
         border: 1px solid #d1d5db;
@@ -91,7 +91,7 @@
         text-transform: uppercase;
         letter-spacing: 0.5px;
         /* PERUBAHAN: Garis bawah pada header dihapus agar tidak double */
-        border-bottom: 1px solid #e5e7eb; 
+        border-bottom: 1px solid #e5e7eb;
     }
 
     /* Sel Tabel (data) */
@@ -106,11 +106,11 @@
     tr:last-child td {
         border-bottom: none;
     }
-    
+
     tr:hover {
         background-color: #f9fafb;
     }
-    
+
     img {
         width: 50px;
         height: 50px;

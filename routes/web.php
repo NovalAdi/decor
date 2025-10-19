@@ -1,11 +1,11 @@
 <?php
 
 use App\Http\Controllers\CartController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\CheckoutController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 
-Route::get('/', function (Request $request) {
+Route::get('/', function () {
     return view('page.home');
 });
 
@@ -21,3 +21,8 @@ Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('pr
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::get('/cart/update/{type}/{id}', [CartController::class, 'update'])->name('cart.update');
 Route::get('/cart/delete/{id}', [CartController::class, 'remove'])->name('cart.delete');
+
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+Route::get('/pesanan', [CheckoutController::class, 'listPesanan'])->name('pesanan.list');
+Route::get('/pesanan/hapus', [CheckoutController::class, 'clearPesanan'])->name('pesanan.hapus');
