@@ -1,18 +1,19 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Kelola Produk</title>
-    {{-- Panggil file CSS --}}
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Decor</title>
+    <script src="https://kit.fontawesome.com/42b1412344.js" crossorigin="anonymous"></script>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body>
-   
 
-    <div class="container">
-        @yield('content')
-    </div>
-
-   
+<body class="font-sans">
+    @include('layout.navbar')
+    @yield('content')
+    @include('layout.footer')
 </body>
+
 </html>
