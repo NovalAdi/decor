@@ -1,42 +1,87 @@
-@import 'tailwindcss';
-
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
-
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+body {
+    font-family: Arial, sans-serif;
+    margin: 30px;
+    background: #f8f9fa;
 }
 
-.active-drop {
+h1 {
+    color: #333;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+th {
+    background: #e9ecef;
+}
+
+.btn, .btn-edit, .btn-delete {
+    text-decoration: none;
+    padding: 6px 10px;
+    border-radius: 4px;
+}
+
+.btn { background: #198754; color: white; }
+.btn-edit { background: #0d6efd; color: white; }
+.btn-delete { background: #dc3545; color: white; }
+
+form {
     display: flex;
-    text-align: left;
+    flex-direction: column;
+    max-width: 400px;
 }
 
-.inactive-drop {
-    display: none;
+label {
+    margin-top: 10px;
 }
 
-.active-burder {
-    display: flex;
-    text-align: left;
+input, select {
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
-.inactive-burger {
-    display: none;
+button {
+    margin-top: 15px;
+    padding: 8px;
+    border: none;
+    background: #0d6efd;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
-.active-nav {
-    text-decoration: underline;
-    text-underline-offset: 5px;
+.alert {
+    background: #d1e7dd;
+    padding: 10px;
+    color: #0f5132;
+    border: 1px solid #badbcc;
+    border-radius: 5px;
+    width: fit-content;
 }
 
-.footer {
-    text-align: left;
+.container {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-.dfsd {
-    color: #e9d7cc;
+nav a {
+    margin-right: 10px;
+    text-decoration: none;
+    color: #0d6efd;
+}
+
+nav {
+    margin-bottom: 20px;
 }

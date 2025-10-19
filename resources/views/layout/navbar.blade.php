@@ -22,7 +22,7 @@
         <div id="burger" class="sm:flex flex-col sm:flex-row sm:items-end gap-5 sm:gap-10 inactive-burger">
             {{-- @php
                 $routes = include base_path('routes.php');
-            @endphp --}}
+            @endphp
 
             {{-- @foreach ($routes as $route)
                 @if (gettype($route['path']) !== 'string')
