@@ -6,97 +6,39 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function __construct()
-    {
-        if (!session()->has('products')) {
-            // DIUBAH: Kunci 'image' dihapus dari data awal
-            $initialProducts = [
-                ['id' => 1, 'name' => 'Meja Kayu', 'category' => 'Furniture', 'price' => 500000,'stock_status' => 'Tersedia'],
-                ['id' => 2, 'name' => 'Kursi Putar', 'category' => 'Furniture', 'price' => 300000, 'stock_status' => 'Tersedia'],
-                ['id' => 3, 'name' => 'Lemari Pakaian', 'category' => 'Furniture', 'price' => 1200000, 'stock_status' => 'Tersedia'],
-            ];
-            session(['products' => $initialProducts]);
-        }
-    }
-
     public function index()
     {
-        $products = session('products', []); 
-        return view('admin.index', compact('products'));
+        $products = [
+            ['id' => 1, 'nama' => 'Kursi Minimalis', 'harga' => 750000,  'rating' => 4.8, 'review' => 120],
+            ['id' => 2, 'nama' => 'Meja Kayu', 'harga' => 1250000, 'rating' => 4.6, 'review' => 85],
+            // tambahkan produk lain...
+        ];
+        return view('page.product', ['products' => $products]);
     }
 
-    public function create()
+    public function show($id)
     {
-        return view('admin.create');
-    }
-
-    public function store(Request $request)
-    {
-        $products = session('products', []);
-        $newId = count($products) > 0 ? max(array_column($products, 'id')) + 1 : 1;
-
-        // DIUBAH: Kunci 'image' dihapus dari produk baru
-        $newProduct = [
-            'id' => $newId,
-            'name' => $request->name,
-            'category' => $request->category,
-            'price' => $request->price,
-            'stock_status' => $request->stock_status
+        // Contoh data dummy (bisa diganti dari database nanti)
+        $products = [
+            1 => [
+                'id' => 1,
+                'nama' => 'Kursi Minimalis',
+                'harga' => 750000,
+                'deskripsi' => 'Kursi bergaya minimalis dengan bahan kayu jati dan dudukan empuk. Cocok untuk ruang tamu atau kantor.',
+                'gambar' => 'kursi1.jpg'
+            ],
+            2 => [
+                'id' => 2,
+                'nama' => 'Meja Kayu',
+                'harga' => 1250000,
+                'deskripsi' => 'Meja kerja modern dengan desain elegan dan banyak ruang penyimpanan.',
+                'gambar' => 'meja1.jpg'
+            ]
         ];
 
-        $products[] = $newProduct; 
-        session(['products' => $products]); 
+        // Ambil produk berdasarkan ID
+        $product = $products[$id] ?? null;
 
-        return redirect()->route('products.index')->with('success', 'Produk berhasil ditambahkan!');
-    }
-
-    public function edit($id)
-    {
-        $products = session('products', []);
-        $productToEdit = null;
-
-        foreach ($products as $product) {
-            if ($product['id'] == $id) {
-                $productToEdit = $product;
-                break;
-            }
-        }
-
-        if ($productToEdit) {
-            return view('admin.edit', ['product' => $productToEdit]);
-        }
-        return redirect()->route('products.index')->with('error', 'Produk tidak ditemukan');
-    }
-
-    public function update(Request $request, $id)
-    {
-        $products = session('products', []);
-
-        foreach ($products as $key => &$product) {
-            if ($product['id'] == $id) {
-                $product['name'] = $request->name;
-                $product['category'] = $request->category;
-                $product['price'] = $request->price;
-                $product['stock_status'] = $request->stock_status;
-                // DIUBAH: Baris untuk 'image' sudah dipastikan tidak ada
-                break;
-            }
-        }
-
-        session(['products' => $products]);
-        return redirect()->route('products.index')->with('success', 'Produk berhasil diperbarui!');
-    }
-
-    public function destroy($id) 
-    { //function ini berguna untuk menghapus produk berdasarkan id
-        $products = session('products', []);
-        foreach ($products as $key => $product) {
-            if ($product['id'] == $id) {
-                unset($products[$key]);
-                break;
-            }
-        }
-        session(['products' => $products]);
-        return redirect()->route('products.index')->with('success', 'Produk berhasil dihapus!');
+        return view('page.detail_product', compact('product'));
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -54,6 +55,32 @@ class CartController extends Controller
         $cartItems = array_filter($cartItems, function ($item) use ($id) {
             return $item['id'] != $id;
         });
+
+        $request->session()->put('cartItems', $cartItems);
+
+        return redirect()->route('cart.index');
+    }
+
+    public function store(Request $request)
+    {
+        $cartItems = $request->session()->get('cartItems', [
+            ['id' => 1, 'nama' => 'Sofa', 'quantity' => 2, 'harga' => 2000000],
+            ['id' => 2, 'nama' => 'Sofa Bed', 'quantity' => 1, 'harga' => 3500000],
+            ['id' => 3, 'nama' => 'Meja Makan', 'quantity' => 1, 'harga' => 1500000],
+        ]);
+
+        $lastId = !empty($cartItems) ? end($cartItems)['id'] : 0;
+        $newId = $lastId + 1;
+
+        $nama = $request->input('nama');
+        $harga = $request->input('harga');
+
+        $cartItems[] = [
+            'id' => $newId,
+            'nama' => $nama,
+            'harga' => $harga,
+            'quantity' => 1,
+        ];
 
         $request->session()->put('cartItems', $cartItems);
 
