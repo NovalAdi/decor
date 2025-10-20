@@ -11,9 +11,9 @@
 </head>
 
 <body class="font-sans">
-    @include('layout.navbar')
+  
     @yield('content')
-    @include('layout.footer')
+
 </body>
 
 </html>

@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers;//file: app/Http/Controllers/ProductController.php
 
-use Illuminate\Http\Request;
+use Illuminate\Http\Request;//untuk mengimpor kelas Request dari namespace Illuminate\Http
 
-class ProductController extends Controller
+class ProductController extends Controller//berguna untuk mengelola produk dalam aplikasi web
 {
     public function __construct()
     {
         if (!session()->has('products')) {
-            // DIUBAH: Kunci 'image' dihapus dari data awal
+           //untuk mengecheck apakah di dalam kata kunci 'products' sudah ada di session atau belum
             $initialProducts = [
                 ['id' => 1, 'name' => 'Meja Kayu', 'category' => 'Furniture', 'price' => 500000,'stock_status' => 'Tersedia'],
                 ['id' => 2, 'name' => 'Kursi Putar', 'category' => 'Furniture', 'price' => 300000, 'stock_status' => 'Tersedia'],
@@ -21,8 +21,8 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = session('products', []); 
-        return view('admin.index', compact('products'));
+        $products = session('products', []); //mengambil data yang mengandung session product, jika tidak ada maka mengembalikan array kosong
+        return view('admin.index', compact('products')); //compact berfungsi untuk mengirim data ke view
     }
 
     public function create()
@@ -33,7 +33,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $products = session('products', []);
-        $newId = count($products) > 0 ? max(array_column($products, 'id')) + 1 : 1;
+        $newId = count($products) > 0 ? max(array_column($products, 'id')) + 1 : 1;//digunakan untuk menghasilkan ID unik untuk produk baru
 
         // DIUBAH: Kunci 'image' dihapus dari produk baru
         $newProduct = [
