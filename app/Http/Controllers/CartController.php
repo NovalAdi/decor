@@ -33,10 +33,10 @@ class CartController extends Controller
         $cartItems = $request->session()->get('cartItems', []);
 
         foreach ($cartItems as &$item) {
-            if ($item['id'] == $id) {
-                $item['quantity'] += ($type === 'plus') ? 1 : -1;
+            if ($item['id'] == $id) { //cari id yang sama yang mau di update
+                $item['quantity'] += ($type === 'plus') ? 1 : -1; //ternary operator
                 if ($item['quantity'] < 1) {
-                    $item['quantity'] = 1;
+                    $item['quantity'] = 1; //validasi supaya tidak kurang dari 1
                 }
                 $item['total_harga'] = $item['harga'] * $item['quantity'];
                 break;
@@ -61,6 +61,7 @@ class CartController extends Controller
         return redirect()->route('cart.index');
     }
 
+    // bagian nopal
     public function store(Request $request)
     {
         $cartItems = $request->session()->get('cartItems', [
