@@ -51,14 +51,14 @@
     <div class="sm:flex items-center gap-7 text-xl text-gray-700 hidden">
         {{-- Search (for non-admin users) --}}
         @if (session('role') !== 'admin')
-            <form method="post" action="{{ url()->current() }}" class="relative w-full max-w-md">
+            <form method="post" action="{{ route('product.search') }}" class="relative w-full max-w-md">
                 @csrf
                 <div
                     class="flex items-center bg-white border border-gray-300 rounded-full overflow-hidden shadow-sm focus-within:ring-2 focus-within:ring-[#B5733A] transition">
                     <i class="fa-solid fa-magnifying-glass px-4 text-gray-500"></i>
                     <input type="text" name="search_query" value="{{ session('search_query') ?? '' }}"
                         placeholder="Search for products..." class="flex-1 py-2 pr-10 text-sm focus:outline-none">
-                    <input type="submit" name="btnSearch" class="hidden">
+                    <input type="submit" class="hidden">
                     @if (!empty(session('search_query')))
                         <button type="submit" name="clearSearch" value="1"
                             class="px-3 text-gray-400 hover:text-black transition" title="Clear search">

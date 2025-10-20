@@ -9,9 +9,13 @@ use App\Http\Controllers\ProductController;
 Route::get('/', function () {
     return view('page.home');
 });
+Route::get('/home', function () {
+    return view('page.home');
+});
 
 // noval
-Route::get('/product', [ProductController::class , 'index'])->name('product.index');
+Route::get('/product', [ProductController::class, 'index'])->name('product.index');
+Route::post('/product', [ProductController::class, 'search'])->name('product.search');
 Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.show');
 Route::post('/cart/add', [CartController::class, 'store'])->name('cart.add');
 
@@ -24,7 +28,7 @@ Route::get('/cart/delete/{id}', [CartController::class, 'remove'])->name('cart.d
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
 Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
 Route::get('/pesanan', [CheckoutController::class, 'listPesanan'])->name('pesanan.list');
-Route::get('/pesanan/hapus', [CheckoutController::class, 'clearPesanan'])->name('pesanan.hapus');
+Route::delete('/pesanan/hapus', [CheckoutController::class, 'clearPesanan'])->name('pesanan.hapus');
 
 // paldo
 Route::resource('products', ProductAdminController::class);
