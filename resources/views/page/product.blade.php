@@ -118,7 +118,7 @@
 
             <!-- sort -->
             <div class="flex justify-between items-center">
-                <h1 class="text-xl font-medium">Show {{ count($products) }} product</h1>
+                <h1 class="text-xl font-medium">Show {{ count($products) }} {{ session('search_query') }} product</h1>
                 <div class="flex items-center gap-3">
                     <p>Sort by</p>
                     <select class="px-2 py-1 border border-[1.5px] border-gray-400 rounded-lg text-sm">
