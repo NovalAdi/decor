@@ -3,25 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Product;
 
 class ProductAdminController extends Controller
 {
-    public function __construct()
-    {
-        if (!session()->has('products')) {
-            // DIUBAH: Kunci 'image' dihapus dari data awal
-            $initialProducts = [
-                ['id' => 1, 'name' => 'Meja Kayu', 'category' => 'Furniture', 'price' => 500000,'stock_status' => 'Tersedia'],
-                ['id' => 2, 'name' => 'Kursi Putar', 'category' => 'Furniture', 'price' => 300000, 'stock_status' => 'Tersedia'],
-                ['id' => 3, 'name' => 'Lemari Pakaian', 'category' => 'Furniture', 'price' => 1200000, 'stock_status' => 'Tersedia'],
-            ];
-            session(['products' => $initialProducts]);
-        }
-    }
-
     public function index()
     {
-        $products = session('products', []);
+        $products = Product::all();
         return view('admin.index', compact('products'));
     }
 
@@ -32,71 +20,43 @@ class ProductAdminController extends Controller
 
     public function store(Request $request)
     {
-        $products = session('products', []);
-        $newId = count($products) > 0 ? max(array_column($products, 'id')) + 1 : 1;
+        $request->validate([
+            'name' => 'required',
+            'category' => 'required',
+            'price' => 'required|integer',
+            'stock_status' => 'required',
+        ]);
 
-        // DIUBAH: Kunci 'image' dihapus dari produk baru
-        $newProduct = [
-            'id' => $newId,
-            'name' => $request->name,
-            'category' => $request->category,
-            'price' => $request->price,
-            'stock_status' => $request->stock_status
-        ];
-
-        $products[] = $newProduct;
-        session(['products' => $products]);
-
+        Product::create($request->all());
         return redirect()->route('products-admin.index')->with('success', 'Produk berhasil ditambahkan!');
     }
 
     public function edit($id)
     {
-        $products = session('products', []);
-        $productToEdit = null;
-
-        foreach ($products as $product) {
-            if ($product['id'] == $id) {
-                $productToEdit = $product;
-                break;
-            }
-        }
-
-        if ($productToEdit) {
-            return view('admin.edit', ['product' => $productToEdit]);
-        }
-        return redirect()->route('products-admin.index')->with('error', 'Produk tidak ditemukan');
+        $product = Product::findOrFail($id);
+        return view('admin.edit', compact('product'));
     }
 
     public function update(Request $request, $id)
     {
-        $products = session('products', []);
+        $request->validate([
+            'name' => 'required',
+            'category' => 'required',
+            'price' => 'required|integer',
+            'stock_status' => 'required',
+        ]);
 
-        foreach ($products as $key => &$product) {
-            if ($product['id'] == $id) {
-                $product['name'] = $request->name;
-                $product['category'] = $request->category;
-                $product['price'] = $request->price;
-                $product['stock_status'] = $request->stock_status;
-                // DIUBAH: Baris untuk 'image' sudah dipastikan tidak ada
-                break;
-            }
-        }
+        $product = Product::findOrFail($id);
+        $product->update($request->all());
 
-        session(['products' => $products]);
         return redirect()->route('products-admin.index')->with('success', 'Produk berhasil diperbarui!');
     }
 
     public function destroy($id)
-    { //function ini berguna untuk menghapus produk berdasarkan id
-        $products = session('products', []);
-        foreach ($products as $key => $product) {
-            if ($product['id'] == $id) {
-                unset($products[$key]);
-                break;
-            }
-        }
-        session(['products' => $products]);
+    {
+        $product = Product::findOrFail($id);
+        $product->delete();
+
         return redirect()->route('products-admin.index')->with('success', 'Produk berhasil dihapus!');
     }
 }

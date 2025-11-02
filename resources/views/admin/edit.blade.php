@@ -1,127 +1,145 @@
+<?php
+?>
 @extends('layout.master_admin')
 
 @section('content')
+<div class="edit-container">
+    <div class="edit-card">
+        <h2 class="edit-title">Edit Produk</h2>
+
+        <form action="{{ route('products-admin.update', $product->id) }}" method="POST" class="edit-form">
+            @csrf
+            @method('PUT')
+
+            <div class="form-group">
+                <label for="name">Nama Produk</label>
+                <input type="text" name="name" id="name" value="{{ $product->name }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="category">Kategori</label>
+                <input type="text" name="category" id="category" value="{{ $product->category }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="price">Harga</label>
+                <input type="number" name="price" id="price" value="{{ $product->price }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="stock_status">Status Stok</label>
+                <select name="stock_status" id="stock_status" required>
+                    <option value="Tersedia" {{ $product->stock_status == 'Tersedia' ? 'selected' : '' }}>Tersedia</option>
+                    <option value="Habis" {{ $product->stock_status == 'Habis' ? 'selected' : '' }}>Habis</option>
+                </select>
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="btn btn-update">Update</button>
+                <a href="{{ route('products-admin.index') }}" class="btn btn-back">Kembali</a>
+            </div>
+        </form>
+    </div>
+</div>
+
 <style>
-    /* Mengatur dasar halaman */
-    body {
-        background-color: #f3f4f6;
-        font-family: 'Inter', Arial, sans-serif;
+    /* Pusatkan form di tengah layar */
+    .edit-container {
+        min-height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
-        min-height: 100vh;
-        margin: 0;
+        background: #f8f9fa;
+        padding: 20px;
     }
 
-    /* Kotak form utama */
-    .form-container {
+    /* Card form */
+    .edit-card {
+        background: #fff;
+        padding: 40px 50px;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         width: 100%;
         max-width: 500px;
-        background: #fff;
-        padding: 40px;
-        border-radius: 12px;
-        border: 1px solid #d1d5db;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     }
 
-    /* Judul Form */
-    .form-container h1 {
+    .edit-title {
         text-align: center;
-        color: #1f2937;
-        font-size: 24px;
-        font-weight: 700;
-        margin-top: 0;
         margin-bottom: 30px;
+        font-size: 28px;
+        font-weight: 700;
+        color: #198754;
     }
 
-    /* Grup untuk setiap label dan input */
-    .form-group {
+    /* Form */
+    .edit-form .form-group {
+        display: flex;
+        flex-direction: column;
         margin-bottom: 20px;
     }
 
-    .form-group label {
-        display: block;
-        margin-bottom: 8px;
+    label {
         font-weight: 600;
-        color: #374151;
-        font-size: 14px;
+        margin-bottom: 6px;
+        color: #333;
     }
 
-    .form-group input,
-    .form-group select {
-        width: 100%;
-        padding: 12px 14px;
-        border: 1px solid #d1d5db;
+    input, select {
+        padding: 10px 14px;
+        border: 1px solid #ccc;
         border-radius: 8px;
-        font-size: 14px;
-        color: #374151;
-        background-color: #f9fafb;
-        transition: border-color 0.3s, box-shadow 0.3s;
-        box-sizing: border-box;
-    }
-
-    .form-group input:focus,
-    .form-group select:focus {
-        outline: none;
-        border-color: #3b82f6;
-        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-    }
-
-    /* Tombol Simpan */
-    .btn-submit {
-        width: 100%;
-        margin-top: 15px;
-        padding: 12px;
-        background-color: #f59e0b; /* Warna kuning untuk update */
-        border: none;
-        color: white;
-        border-radius: 8px;
-        cursor: pointer;
         font-size: 16px;
-        font-weight: 600;
-        transition: background-color 0.3s;
+        transition: all 0.3s ease;
     }
 
-    .btn-submit:hover {
-        background-color: #d97706;
+    input:focus, select:focus {
+        border-color: #198754;
+        box-shadow: 0 0 6px rgba(25, 135, 84, 0.3);
+        outline: none;
+    }
+
+    /* Tombol */
+    .button-group {
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .btn {
+        flex: 5;
+        text-align: center;
+        padding: 12px;
+        font-size: 16px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .btn-update {
+        background-color: #198754;
+        color: #fff;
+        border: none;
+    }
+
+    .btn-update:hover {
+        background-color: #157347;
+        transform: translateY(-2px);
+    }
+
+    .btn-back {
+        background-color: #f1f1f1;
+        color: #333;
+        border: 1px solid #ccc;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn-back:hover {
+        background-color: #6c757d;
+        color: #fff;
+        transform: translateY(-2px);
     }
 </style>
-
-<div class="form-container">
-    <h1>Edit Produk</h1>
-
-    <form action="{{ route('products.update', $product['id']) }}" method="POST">
-        @csrf
-        @method('PUT') {{-- PENTING: Method untuk update adalah PUT --}}
-
-        <div class="form-group">
-            <label for="name">Nama Produk:</label>
-            <input type="text" id="name" name="name" value="{{ $product['name'] }}" required>
-        </div>
-
-        <div class="form-group">
-            <label for="category">Kategori:</label>
-            <input type="text" id="category" name="category" value="{{ $product['category'] }}" required>
-        </div>
-
-        <div class="form-group">
-            <label for="price">Harga:</label>
-            <input type="number" id="price" name="price" value="{{ $product['price'] }}" required>
-        </div>
-
-        <div class="form-group">
-            <label for="stock_status">Status Stok:</label>
-            <select id="stock_status" name="stock_status">
-                <option value="Tersedia" {{ $product['stock_status'] == 'Tersedia' ? 'selected' : '' }}>
-                    Tersedia
-                </option>
-                <option value="Habis" {{ $product['stock_status'] == 'Habis' ? 'selected' : '' }}>
-                    Habis
-                </option>
-            </select>
-        </div>
-
-        <button type="submit" class="btn-submit">Simpan Perubahan</button>
-    </form>
-</div>
 @endsection
